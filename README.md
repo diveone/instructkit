@@ -10,7 +10,7 @@ Integrations:
 * Google API: Drive (Docs, Slideshow)
 * Github: Auth for instructors
 
-Attendance
+Attendance Notes
 ```py
 # Unit model
 def attendance(self, student_id):

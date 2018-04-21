@@ -9,20 +9,26 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
 import os
+from os.path import abspath, dirname, join as join_paths
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-DJANGO_ROOT = os.path.dirname(os.path.abspath(__file__))
+CONFIG_ROOT = dirname(abspath(__file__))
 
-# CURRENT PROJECT_DIR: trashtalk/trashtalk
-PROJECT_PATH = os.path.dirname(DJANGO_ROOT)
+# TODO: Recommended by Two Scoops. Worthwhile?
+# Config would be in project root
+# CONFIG_ROOT = dirname(abspath(__file__))
+# DJANGO_ROOT = dirname(CONFIG_ROOT)
+# PROJECT_ROOT = dirname(DJANGO_DIR)
+
+# CURRENT PROJECT_DIR: instructkit/instructkit
+PROJECT_PATH = dirname(CONFIG_ROOT)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p0a!v7t*&epfclfchj80z9vvcmw!qkw_lvai3gr*)r4$5fl2ft'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -38,6 +44,7 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'rest_framework'
 ]
 
 CUSTOM_APPS = [
@@ -61,7 +68,7 @@ ROOT_URLCONF = 'instructkit.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_PATH, '../../templates')]
+        'DIRS': [join_paths(PROJECT_PATH, '../../templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
