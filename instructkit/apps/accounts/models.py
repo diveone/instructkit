@@ -1,14 +1,22 @@
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.db import models
+from django.contrib.postgres.fields import JSONField
+
 from django.utils.translation import ugettext_lazy as _
 
 from model_utils import Choices
+from shortuuidfield import ShortUUIDField
+
+
+def skill_defaults():
+    """Default settings for Instructor.skills"""
+    return {"languages": [], "technologies": []}
 
 
 class User(AbstractUser):
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
+    uid = ShortUUIDField(auto=True)
+    # First Name and Last Name do not cover name patterns around the globe.
     # Django Cookiecutter: https://github.com/pydanny/cookiecutter-django
     name = models.CharField(_('Full name of User'), blank=True, null=True, max_length=255)
     email = models.EmailField(_('email address'), blank=False, unique=True)
@@ -34,7 +42,7 @@ class Instructor(User):
         ('full stack', 'fullstack', 'Full Stack Web Development')
     )
 
-    skills = models.CharField(max_length=1000)
+    skills = JSONField(default=skill_defaults)
     speciality = models.CharField(max_length=255, choices=SKILL_CHOICES)
 
     class Meta:
