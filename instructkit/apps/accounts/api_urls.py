@@ -5,5 +5,5 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('students/', StudentListCreateAPIView.as_view(), name='students'),
-    path('students/<id>/', StudentRetrieveEditAPIView.as_view(), name='student_detail'),
+    path('students/<uid>/', StudentRetrieveEditAPIView.as_view(), name='student_detail'),
 ]

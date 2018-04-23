@@ -12,6 +12,7 @@ class InstructorListCreateAPIView(ListCreateAPIView):
 class InstructorRetrieveEditAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Instructor.objects.all()
     serializer_class = InstructorSerializer
+    lookup_field = 'uid'
 
 
 class StudentListCreateAPIView(ListCreateAPIView):
@@ -22,3 +23,4 @@ class StudentListCreateAPIView(ListCreateAPIView):
 class StudentRetrieveEditAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    lookup_field = 'uid'
