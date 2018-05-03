@@ -16,10 +16,8 @@ from os.path import abspath, dirname, join as join_paths
 CONFIG_ROOT = dirname(abspath(__file__))
 
 # TODO: Recommended by Two Scoops. Worthwhile?
-# Config would be in project root
-# CONFIG_ROOT = dirname(abspath(__file__))
 # DJANGO_ROOT = dirname(CONFIG_ROOT)
-# PROJECT_ROOT = dirname(DJANGO_DIR)
+# PROJECT_ROOT = dirname(DJANGO_ROOT)
 
 # CURRENT PROJECT_DIR: instructkit/instructkit
 PROJECT_PATH = dirname(CONFIG_ROOT)

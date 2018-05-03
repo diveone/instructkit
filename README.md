@@ -9,6 +9,18 @@ Top Priorities:
 Integrations:
 * Google API: Drive (Docs, Slideshow)
 * Github: Auth for instructors
+* Calendar, REPL
+
+__MVP Features__
+
+- Schedule
+- Features
+- Instructor panel: Add classes, students and assignments
+- Student panel: Submit work, view schedule
+
+__Relationships__
+
+User > Student User > Instructor Course has many Units has many Lessons has many assignments Schedule has many attendees
 
 Attendance Notes
 ```py
