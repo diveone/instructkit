@@ -25,15 +25,17 @@ PROJECT_PATH = dirname(CONFIG_ROOT)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# =======================================================================
+# SECURITY SETTINGS
+# =======================================================================
 SECRET_KEY = os.getenv('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = []
 
-# Application definition
+# =======================================================================
+# APPLICATIONS
+# On application start-up, Django looks for migrations files for each app
+# =======================================================================
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -61,7 +63,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# =======================================================================
+# CONFIGURATION SETTINGS
+# =======================================================================
 ROOT_URLCONF = 'instructkit.urls'
+WSGI_APPLICATION = 'instructkit.wsgi.application'
+
+# =======================================================================
+# MEDIA MANAGEMENT
+# Static files and template management
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+# =======================================================================
+STATIC_URL = '/static/'
 
 TEMPLATES = [
     {
@@ -80,10 +93,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'instructkit.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+# =======================================================================
+# DATABASE SETTINGS
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+# =======================================================================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -95,9 +108,13 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.User'
+# =======================================================================
+# AUTHENTICATION
 # Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+# =======================================================================
+AUTH_USER_MODEL = 'accounts.User'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -118,17 +135,26 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
+# =======================================================================
+# THIRD-PARTY INTEGRATION SETTINGS
+# For settings specific to third-party modules and apis.
+# The credentials below are NOT FOR PRODUCTION. Overwrite them by editing
+# your dev.py
+# =======================================================================
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
+# =======================================================================
+# LOGGING SETTINGS
+# https://docs.djangoproject.com/en/1.11/topics/logging
+# =======================================================================
