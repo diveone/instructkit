@@ -8,6 +8,8 @@ class InstructorFactory(factory.DjangoModelFactory):
         model = Instructor
 
     uid = factory.LazyFunction(shortuuid.uuid)
+    username = factory.Sequence(lambda n: 'user%d' % n)
+    email = factory.LazyAttribute(lambda obj: '%s@example.com' % obj.username)
 
 
 class StudentFactory(factory.DjangoModelFactory):
@@ -15,3 +17,5 @@ class StudentFactory(factory.DjangoModelFactory):
         model = Student
 
     uid = factory.LazyFunction(shortuuid.uuid)
+    username = factory.Sequence(lambda n: 'user%d' % n)
+    email = factory.LazyAttribute(lambda obj: '%s@example.com' % obj.username)

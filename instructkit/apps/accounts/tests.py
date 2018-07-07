@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from .factories import InstructorFactory, StudentFactory
 
@@ -16,13 +17,15 @@ class AccountsAPIViewsTestMixin:
 
     def test_get_user_list(self):
         url = reverse(self.LIST_URL)
-        response = self.client.get(url)
+        self.factory.force_authenticate(user=self.admin)
+        response = self.factory.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_user_detail(self):
         url = reverse(self.DETAIL_URL, args=[self.user.uid])
-        response = self.client.get(url)
+        self.factory.force_authenticate(user=self.admin)
+        response = self.factory.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -33,20 +36,23 @@ class AccountsAPIViewsTestMixin:
             'email': 'coltest@example.com',
             'password': 'testpassword'
         }
-        response = self.client.post(url, json.dumps(user), content_type='application/json')
+
+        self.factory.force_authenticate(user=self.admin)
+        response = self.factory.post(url, json.dumps(user),
+                                     content_type='application/json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(user['username'], response.data['username'])
 
-    def test_create_user_fail(self):
+    def test_create_user_forbidden(self):
         url = reverse(self.LIST_URL)
         user = {
             'email': 'coltest@example.com',
             'password': 'testpassword'
         }
-        response = self.client.post(url, json.dumps(user), content_type='application/json')
+        response = self.factory.post(url, json.dumps(user), content_type='application/json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_edit_user(self):
         url = reverse(self.DETAIL_URL, args=[self.user.uid])
@@ -54,8 +60,8 @@ class AccountsAPIViewsTestMixin:
             'email': 'misstesty@example.com'
         }
 
-        self.client.force_login(self.user)
-        response = self.client.patch(url, json.dumps(updated),
+        self.factory.force_authenticate(user=self.admin)
+        response = self.factory.patch(url, json.dumps(updated),
                                      content_type='application/json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -69,6 +75,8 @@ class InstructorAPIViewsTestCase(TestCase, AccountsAPIViewsTestMixin):
 
     def setUp(self):
         self.user = self.USER_FACTORY()
+        self.admin = self.USER_FACTORY(is_superuser=True, is_staff=True)
+        self.factory = APIClient()
 
 
 class StudentAPIViewsTestCase(TestCase, AccountsAPIViewsTestMixin):
@@ -77,4 +85,6 @@ class StudentAPIViewsTestCase(TestCase, AccountsAPIViewsTestMixin):
     USER_FACTORY = StudentFactory
 
     def setUp(self):
-        self.user = StudentFactory()
+        self.user = self.USER_FACTORY()
+        self.admin = self.USER_FACTORY(is_superuser=True, is_staff=True)
+        self.factory = APIClient()

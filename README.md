@@ -1,4 +1,4 @@
-# Instructkit
+# Instructkit API
 
 Top Priorities:
 * Track assignment completion.
@@ -20,7 +20,9 @@ __MVP Features__
 
 __Relationships__
 
-User > Student User > Instructor Course has many Units has many Lessons has many assignments Schedule has many attendees
+User > Student User > Instructor
+Course has many Units has many Lessons has many assignments
+Schedule has many attendees
 
 Attendance Notes
 ```py

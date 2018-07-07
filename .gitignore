@@ -1,4 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# Custom
+scratch.md
+notes.md
+dev.py
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -16,6 +16,7 @@ factory_boy = "==2.10.0"
 dj-database-url = "*"
 gunicorn = "*"
 django-heroku = "*"
+djangorestframework-jwt = "*"
 
 [dev-packages]
 
