@@ -13,6 +13,7 @@ import django_heroku
 # import dj_database_url
 from .common import *
 
+# Required BASE_DIR for django_heroku to auto detect settings
 BASE_DIR = CONFIG_ROOT
 SECRET_KEY = os.getenv('SECRET_KEY')
 

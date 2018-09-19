@@ -30,6 +30,7 @@ PROJECT_PATH = dirname(CONFIG_ROOT)
 # =======================================================================
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
+TESTING = False
 ALLOWED_HOSTS = []
 
 # =======================================================================
@@ -49,6 +50,7 @@ DJANGO_APPS = [
 
 CUSTOM_APPS = [
     'accounts',
+    'core',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS

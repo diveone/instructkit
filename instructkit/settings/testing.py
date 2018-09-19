@@ -12,59 +12,27 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 from .common import *
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p0a!v7t*&epfclfchj80z9vvcmw!qkw_lvai3gr*)r4$5fl2ft'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+SECRET_KEY = 'p0a!v7t*&epfclfchj80z9vvcmw!qkw_lvai3gr*)r4$5fl2ft'
+DEBUG = False
+TESTING = True
 ALLOWED_HOSTS += []
 
-# Application definition
-DJANGO_APPS += [
-    'debug_toolbar',
-]
-CUSTOM_APPS += []
-
-INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS
-
-MIDDLEWARE += [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
-DEBUG_TOOLBAR_PANELS = [
-    'debug_toolbar.panels.versions.VersionsPanel',
-    'debug_toolbar.panels.timer.TimerPanel',
-    'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-    'debug_toolbar.panels.redirects.RedirectsPanel',
-]
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'instructkit_dev',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'USER': 'xotomajor',
-        'PASSWORD': 'admin'
+        'NAME': os.getenv('DB_NAME', 'instructkit_test'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD')
     }
 }
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
 LOGGING = {
     'disable_existing_loggers': False,
     'version': 1,
@@ -72,7 +40,8 @@ LOGGING = {
         'console': {
             # logging handler that outputs log messages to terminal
             'class': 'logging.StreamHandler',
-            'level': 'DEBUG', # message level to be written to console
+            'level': 'WARNING',
+            'filters': [],
         },
     },
     'loggers': {
