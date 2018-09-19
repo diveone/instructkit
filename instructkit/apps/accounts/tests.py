@@ -6,7 +6,13 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
+from core.utils import LogMuterTestMixin
+
 from .factories import InstructorFactory, StudentFactory
+
+
+class AccountsLogMuterMixin(LogMuterTestMixin):
+    log_names = ['accounts.views']
 
 
 class AccountsAPIViewsTestMixin:
