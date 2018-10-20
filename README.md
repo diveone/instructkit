@@ -20,9 +20,13 @@ __MVP Features__
 
 __Relationships__
 
-User > Student User > Instructor
-Course has many Units has many Lessons has many assignments
-Schedule has many attendees
+There are at least 2 base models known: the users and the modules. Users are just the people
+who will use the app. Modules are the targetted blocks of content.
+
+- User > Student
+- User > Instructor
+- Course has many Units has many Lessons has many Assignments
+- Schedule has many attendees
 
 Attendance Notes
 ```py

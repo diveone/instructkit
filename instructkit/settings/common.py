@@ -51,6 +51,7 @@ DJANGO_APPS = [
 CUSTOM_APPS = [
     'accounts',
     'core',
+    'courses',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS
