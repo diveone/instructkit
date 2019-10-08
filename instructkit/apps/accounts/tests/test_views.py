@@ -8,7 +8,7 @@ from rest_framework.test import APIClient
 
 from core.utils import LogMuterTestMixin
 
-from .factories import InstructorFactory, StudentFactory
+from accounts.factories import InstructorFactory, StudentFactory
 
 
 class AccountsLogMuterMixin(LogMuterTestMixin):

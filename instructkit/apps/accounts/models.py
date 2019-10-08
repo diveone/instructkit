@@ -24,6 +24,9 @@ class User(AbstractUser):
     website = models.URLField(_('Link to personal portfolio site'), blank=True, null=True)
     linkedin = models.URLField(_('Link to LinkedIn profile'), blank=True, null=True)
 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name']
+
     def __str__(self):
         return self.username
 
