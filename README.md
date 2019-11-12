@@ -1,5 +1,20 @@
 # Instructkit API
 
+## TODO
+
+- Finish remaining tests for `courses` module.
+- Review testcases:
+    * should test views directly
+    * should test api 
+- Review/refactor seed command
+- Create UI mock-up
+- Document Heroku process
+- Push to Gitlab, setup CI/CD
+- Standup testing server
+
+### API Documentation
+
+
 Top Priorities:
 * Track assignment completion.
 * Track attendance.

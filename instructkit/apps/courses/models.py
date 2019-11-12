@@ -15,19 +15,36 @@ class BaseModule(models.Model):
     uid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     title = models.CharField(max_length=300, null=False)
     description = models.TextField(null=False)
-    duration = models.CharField(max_length=300, null=False)
     duration_type = models.CharField(max_length=20,
                                      choices=DURATION_UNITS,
                                      default=DURATION_UNITS.days,
-                                     null=False)
+                                     null=False,
+                                     help_text='Default is days. Set to hours, weeks, months.')
+    start = models.DateTimeField(null=False)
+    end = models.DateTimeField(null=False)
+
 
     class Meta:
         abstract = True
+
+    def __repr__(self):
+        return self.title
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def duration(self):
+        # TODO Issue #6 - Duration can be shown in weeks as well. Map to duration_type
+        delta = self.end - self.start
+        return delta.days
 
 
 class Course(BaseModule):
     instructors = models.ManyToManyField('accounts.Instructor',
                                          related_name='courses')
+    students = models.ManyToManyField('accounts.Student',
+                                      related_name='courses')
 
 
 class Unit(BaseModule):
