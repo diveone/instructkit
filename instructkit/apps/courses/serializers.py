@@ -11,7 +11,6 @@ class BaseModuleSerializerMixin:
 
 
 class CourseSerializer(serializers.ModelSerializer, BaseModuleSerializerMixin):
-    duration = serializers.IntegerField(required=False)
     # TODO: Issue #1 - https://www.django-rest-framework.org/api-guide/relations/#custom-relational-fields
     students = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all(),
                                                   many=True)
@@ -20,26 +19,29 @@ class CourseSerializer(serializers.ModelSerializer, BaseModuleSerializerMixin):
 
     class Meta:
         model = Course
-        fields = ('uid', 'title', 'description', 'duration', 'duration_type', 'start', 'end',
+        fields = ('uid', 'title', 'description', 'duration_type', 'start', 'end',
                   'instructors', 'students')
 
 
 class UnitSerializer(serializers.ModelSerializer):
+    course = serializers.PrimaryKeyRelatedField(queryset=Unit.objects.all(),
+                                                pk_field=serializers.UUIDField())
+
     class Meta:
         model = Unit
-        fields = ('uid', 'title', 'description', 'duration', 'duration_type', 'start', 'end',
+        fields = ('uid', 'title', 'description', 'duration_type', 'start', 'end',
                   'course', 'level')
 
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ('uid', 'title', 'description', 'duration', 'duration_type', 'start', 'end',
+        fields = ('uid', 'title', 'description', 'duration_type', 'start', 'end',
                   'instructor', 'unit')
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assignment
-        fields = ('uid', 'title', 'description', 'duration', 'duration_type', 'start', 'end',
+        fields = ('uid', 'title', 'description', 'duration_type', 'start', 'end',
                   'lesson', 'category', 'url', 'document', 'is_complete')

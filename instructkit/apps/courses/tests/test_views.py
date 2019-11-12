@@ -1,4 +1,3 @@
-import datetime
 import json
 from unittest import skip
 
@@ -12,8 +11,7 @@ from accounts.factories import InstructorFactory, StudentFactory
 from accounts.models import Student, Instructor
 from core.utils import LogMuterTestMixin
 
-from courses.factories import CourseFactory, UnitFactory
-from courses.models import Unit
+from courses.factories import CourseFactory, UnitFactory, LessonFactory, AssignmentFactory
 
 
 class CourseLogMuterMixin(LogMuterTestMixin):
@@ -63,23 +61,20 @@ class CourseAPIViewsTestMixin:
 class CourseAPIViewsTestCase(TestCase, CourseAPIViewsTestMixin, CourseLogMuterMixin):
     LIST_URL = 'api:courses:courses'
     DETAIL_URL = 'api:courses:course_detail'
-    MODULE_FACTORY = CourseFactory
-    INSTRUCTOR_FACTORY = InstructorFactory
-    USER_FACTORY = StudentFactory
 
     def setUp(self) -> None:
-        self.admin = self.INSTRUCTOR_FACTORY(is_superuser=True, is_staff=True)
-        self.student = self.USER_FACTORY(username='joan')
+        self.admin = InstructorFactory(is_superuser=True, is_staff=True)
+        self.student = StudentFactory(username='joan')
         StudentFactory(username='joe')
         StudentFactory(username='jane')
-        self.INSTRUCTOR_FACTORY(username='Ms. Han')
-        self.instance = self.MODULE_FACTORY()
+        InstructorFactory(username='Ms. Han')
+        self.instance = CourseFactory()
         self.apiclient = APIClient()
         # TODO: Issue #1 - https://www.django-rest-framework.org/api-guide/relations/#custom-relational-fields
         self.students = [s.id for s in Student.objects.all()]
         self.instructors = [i.id for i in Instructor.objects.all()]
 
-    def test_create_course(self):
+    def test_create_course_success(self):
         url = reverse(self.LIST_URL)
         module = {
             'title': 'Programming I',
@@ -115,15 +110,62 @@ class CourseAPIViewsTestCase(TestCase, CourseAPIViewsTestMixin, CourseLogMuterMi
 class UnitAPIViewsTestCase(TestCase, CourseAPIViewsTestMixin, CourseLogMuterMixin):
     LIST_URL = 'api:courses:units'
     DETAIL_URL = 'api:courses:unit_detail'
-    MODULE = Unit
-    INSTRUCTOR_FACTORY = InstructorFactory
-    USER_FACTORY = StudentFactory
+    # TODO: Missing tests: create unit, edit, delete, archive
 
     def setUp(self) -> None:
-        self.admin = self.INSTRUCTOR_FACTORY(is_superuser=True, is_staff=True)
-        self.student = self.USER_FACTORY(username='joan')
+        self.admin = InstructorFactory(is_superuser=True, is_staff=True)
+        self.student = StudentFactory(username='joan')
         StudentFactory(username='joe')
         StudentFactory(username='jane')
-        self.INSTRUCTOR_FACTORY(username='Ms. Han')
+        InstructorFactory(username='Ms. Han')
         self.instance = UnitFactory()
+        self.apiclient = APIClient()
+
+    @skip('Test isnt creating the course in DB')
+    def test_create_unit_success(self):
+        url = reverse(self.LIST_URL)
+        course = CourseFactory()
+        # FIXME: The test doesnt see the course in the test db. Not sure why ...
+        unit = {
+            'title': 'Programming I',
+            'description': 'A test module!',
+            'start': '2050-01-01T00:00',
+            'end': '2050-04-01T00:00',
+            'course': '3be19a27-0d45-4c64-be1e-c72328315d3c',
+            'level': 'normal'
+        }
+        self.apiclient.force_authenticate(user=self.admin)
+        response = self.apiclient.post(url, json.dumps(unit),
+                                       content_type='application/json')
+
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code, response.data)
+
+
+class LessonAPIViewsTestCase(TestCase, CourseAPIViewsTestMixin, CourseLogMuterMixin):
+    LIST_URL = 'api:courses:lessons'
+    DETAIL_URL = 'api:courses:lesson_detail'
+    # TODO: Missing tests: create lesson, edit, delete, archive
+
+    def setUp(self) -> None:
+        self.admin = InstructorFactory(is_superuser=True, is_staff=True)
+        self.student = StudentFactory(username='joan')
+        StudentFactory(username='joe')
+        StudentFactory(username='jane')
+        InstructorFactory(username='Ms. Han')
+        self.instance = LessonFactory()
+        self.apiclient = APIClient()
+
+
+class AssignmentAPIViewsTestCase(TestCase, CourseAPIViewsTestMixin, CourseLogMuterMixin):
+    LIST_URL = 'api:courses:assignments'
+    DETAIL_URL = 'api:courses:assignment_detail'
+    # TODO: Missing tests: create assignment, is_complete, edit, delete, archive
+
+    def setUp(self) -> None:
+        self.admin = InstructorFactory(is_superuser=True, is_staff=True)
+        self.student = StudentFactory(username='joan')
+        StudentFactory(username='joe')
+        StudentFactory(username='jane')
+        InstructorFactory(username='Ms. Han')
+        self.instance = AssignmentFactory()
         self.apiclient = APIClient()

@@ -35,7 +35,7 @@ class User(AbstractUser):
 
 
 class Instructor(User):
-    # TODO: Add properties for: courses taught, success rate, etc
+    # TODO: Issue #2 - Add properties for: courses taught, success rate, etc
 
     SKILL_CHOICES = Choices(
         ('frontend dev', 'fewd', 'Frontend Web Development'),

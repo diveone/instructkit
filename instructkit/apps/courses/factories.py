@@ -2,17 +2,12 @@ import datetime
 import uuid
 
 import factory
-from factory.fuzzy import FuzzyNaiveDateTime
+from factory.fuzzy import FuzzyNaiveDateTime, FuzzyChoice, FuzzyText
 
-from .models import Course, Unit
+from accounts.factories import InstructorFactory
+from .models import Course, Unit, Lesson, Assignment
 
 fdt = FuzzyNaiveDateTime(datetime.datetime(2050, 1, 1), datetime.datetime(2050, 4, 1))
-
-
-class ModuleMixin:
-    uid = factory.LazyFunction(uuid.uuid4)
-    start = fdt.start_dt
-    end = fdt.end_dt
 
 
 class CourseFactory(factory.DjangoModelFactory):
@@ -24,11 +19,37 @@ class CourseFactory(factory.DjangoModelFactory):
     end = fdt.end_dt
 
 
-class UnitFactory(factory.DjangoModelFactory, ModuleMixin):
+class UnitFactory(factory.DjangoModelFactory):
     class Meta:
         model = Unit
 
     uid = factory.LazyFunction(uuid.uuid4)
     course = factory.SubFactory(CourseFactory)
+    level = FuzzyChoice(['low', 'normal', 'medium', 'high'])
+    start = fdt.start_dt
+    end = fdt.end_dt
+
+
+class LessonFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Lesson
+
+    uid = factory.LazyFunction(uuid.uuid4)
+    unit = factory.SubFactory(UnitFactory)
+    instructor = factory.SubFactory(InstructorFactory)
+    start = fdt.start_dt
+    end = fdt.end_dt
+
+
+class AssignmentFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Assignment
+
+    uid = factory.LazyFunction(uuid.uuid4)
+    lesson = factory.SubFactory(LessonFactory)
+    category = FuzzyChoice(['homework', 'project', 'exercise'])
+    url = 'assignment.example.com'
+    document = FuzzyText(length=500)
+    is_complete = False
     start = fdt.start_dt
     end = fdt.end_dt

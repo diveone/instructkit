@@ -15,8 +15,6 @@ class BaseModule(models.Model):
     uid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     title = models.CharField(max_length=300, null=False)
     description = models.TextField(null=False)
-    # TODO: Remove this field, make it a property. Not sure why I did this ...
-    duration = models.IntegerField(max_length=300, null=False)
     duration_type = models.CharField(max_length=20,
                                      choices=DURATION_UNITS,
                                      default=DURATION_UNITS.days,
@@ -29,20 +27,17 @@ class BaseModule(models.Model):
     class Meta:
         abstract = True
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self._set_duration()
-        super().save(*args, **kwargs)
-
-    def _set_duration(self):
-        delta = self.end - self.start
-        self.duration = delta.days
-
     def __repr__(self):
         return self.title
 
     def __str__(self):
         return self.title
+
+    @property
+    def duration(self):
+        # TODO Issue #6 - Duration can be shown in weeks as well. Map to duration_type
+        delta = self.end - self.start
+        return delta.days
 
 
 class Course(BaseModule):
