@@ -7,6 +7,7 @@ from .serializers import (Course, Unit, Lesson, Assignment, CourseSerializer, Un
 class CourseListCreateAPIView(ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    lookup_field = 'uid'
 
 
 class CourseRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
@@ -18,6 +19,7 @@ class CourseRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class UnitListCreateAPIView(ListCreateAPIView):
     queryset = Unit.objects.all()
     serializer_class = UnitSerializer
+    lookup_field = 'uid'
 
 
 class UnitRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
@@ -29,6 +31,7 @@ class UnitRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class LessonListCreateAPIView(ListCreateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    lookup_field = 'uid'
 
 
 class LessonRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
@@ -40,6 +43,7 @@ class LessonRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class AssignmentListCreateAPIView(ListCreateAPIView):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
+    lookup_field = 'uid'
 
 
 class AssignmentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
