@@ -9,40 +9,30 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-import django_heroku
-# import dj_database_url
+
 from .common import *
 
-# Required BASE_DIR for django_heroku to auto detect settings
-BASE_DIR = CONFIG_ROOT
-SECRET_KEY = os.getenv('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+SECRET_KEY = 'p0a!v7t*&epfclfchj80z9vvcmw!qkw_lvai3gr*)r4$5fl2ft'
+DEBUG = False
+TESTING = True
 ALLOWED_HOSTS += []
-
-# Application definition
-DJANGO_APPS += []
-CUSTOM_APPS += []
-
-INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS
-
-MIDDLEWARE += [
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
-]
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME', 'instructkit_test'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD')
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Logging
 LOGGING = {
     'disable_existing_loggers': False,
     'version': 1,
@@ -50,7 +40,8 @@ LOGGING = {
         'console': {
             # logging handler that outputs log messages to terminal
             'class': 'logging.StreamHandler',
-            'level': 'DEBUG',  # message level to be written to console
+            'level': 'WARNING',
+            'filters': [],
         },
     },
     'loggers': {
@@ -60,14 +51,11 @@ LOGGING = {
             # root level logger.
             'handlers': ['console'],
             'level': 'DEBUG',
-            'propagate': False,  # this tells logger to send logging message
-                                 # to its parent (will send if set to True)
+            'propagate': False, # this tells logger to send logging message
+                                # to its parent (will send if set to True)
         },
         'django.db': {
             # django also has database level logging
         },
     },
 }
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())

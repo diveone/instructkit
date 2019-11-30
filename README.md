@@ -1,4 +1,28 @@
-# Instructkit
+# Instructkit API
+
+**Dev tools**
+- https://danielkummer.github.io/git-flow-cheatsheet/
+
+
+## TODO
+
+- Publish release v1.0.2-alpha and research release names (Anderson, etc)
+- Publish to Heroku
+
+### v1.0.3-alpha
+
+- Review testcases:
+    * should test views directly
+    * should test api 
+- Review/refactor seed command
+- Create UI mock-up
+- Document Heroku process
+- Push to Gitlab, setup CI/CD
+- Standup testing server
+- Create APi documentation with OpenAPI or Postman
+
+### API Documentation
+
 
 Top Priorities:
 * Track assignment completion.
@@ -20,7 +44,13 @@ __MVP Features__
 
 __Relationships__
 
-User > Student User > Instructor Course has many Units has many Lessons has many assignments Schedule has many attendees
+There are at least 2 base models known: the users and the modules. Users are just the people
+who will use the app. Modules are the targetted blocks of content.
+
+- User > Student
+- User > Instructor
+- Course has many Units has many Lessons has many Assignments
+- Schedule has many attendees
 
 Attendance Notes
 ```py
