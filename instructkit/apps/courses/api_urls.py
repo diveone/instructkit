@@ -12,8 +12,8 @@ urlpatterns = [
     path('units/', UnitListCreateAPIView.as_view(), name='units'),
     path('lessons/', LessonListCreateAPIView.as_view(), name='lessons'),
     path('assignments/', AssignmentListCreateAPIView.as_view(), name='assignments'),
-    path('courses/<uid>/', CourseRetrieveUpdateDestroyView.as_view(), name='course_detail'),
-    path('units/<uid>/', UnitRetrieveUpdateDestroyView.as_view(), name='unit_detail'),
-    path('lessons/<uid>/', LessonRetrieveUpdateDestroyView.as_view(), name='lesson_detail'),
-    path('assignments/<uid>/', AssignmentRetrieveUpdateDestroyView.as_view(), name='assignment_detail'),
+    path('courses/<pk>/', CourseRetrieveUpdateDestroyView.as_view(), name='course_detail'),
+    path('units/<pk>/', UnitRetrieveUpdateDestroyView.as_view(), name='unit_detail'),
+    path('lessons/<pk>/', LessonRetrieveUpdateDestroyView.as_view(), name='lesson_detail'),
+    path('assignments/<pk>/', AssignmentRetrieveUpdateDestroyView.as_view(), name='assignment_detail'),
 ]

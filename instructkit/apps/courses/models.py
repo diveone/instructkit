@@ -12,7 +12,7 @@ class BaseModule(models.Model):
         ('months', 'months', 'Months')
     )
 
-    uid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
+    id = models.UUIDField(primary_key=True, unique=True, editable=False, default=uuid.uuid4)
     title = models.CharField(max_length=300, null=False)
     description = models.TextField(null=False)
     duration_type = models.CharField(max_length=20,
@@ -87,6 +87,7 @@ class Assignment(BaseModule):
                                related_name='assignments',
                                help_text='The lesson this assignment relates to.')
     category = models.CharField(max_length=300, choices=CATEGORIES)
+    # TODO: Make url and document optional
     url = models.URLField()
     document = models.TextField()
     is_complete = models.BooleanField(default=False)

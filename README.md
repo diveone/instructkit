@@ -1,8 +1,16 @@
 # Instructkit API
 
+**Dev tools**
+- https://danielkummer.github.io/git-flow-cheatsheet/
+
+
 ## TODO
 
-- Finish remaining tests for `courses` module.
+- Publish release v1.0.2-alpha and research release names (Anderson, etc)
+- Publish to Heroku
+
+### v1.0.3-alpha
+
 - Review testcases:
     * should test views directly
     * should test api 
@@ -11,6 +19,7 @@
 - Document Heroku process
 - Push to Gitlab, setup CI/CD
 - Standup testing server
+- Create APi documentation with OpenAPI or Postman
 
 ### API Documentation
 
