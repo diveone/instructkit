@@ -14,11 +14,12 @@ import datetime as dt
 from os.path import abspath, dirname, join as join_paths
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# instructkit/instructkit/settings
 CONFIG_ROOT = dirname(abspath(__file__))
 
 # TODO: Recommended by Two Scoops. Worthwhile?
-# DJANGO_ROOT = dirname(CONFIG_ROOT)
-# PROJECT_ROOT = dirname(DJANGO_ROOT)
+# APP_ROOT = dirname(CONFIG_ROOT)  # instructkit/instructkit
+# PROJECT_ROOT = dirname(APP_ROOT)  # instructkit
 
 # CURRENT PROJECT_DIR: instructkit/instructkit
 PROJECT_PATH = dirname(CONFIG_ROOT)
@@ -32,7 +33,7 @@ PROJECT_PATH = dirname(CONFIG_ROOT)
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 TESTING = False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',]
 
 # =======================================================================
 # APPLICATIONS
@@ -82,12 +83,16 @@ WSGI_APPLICATION = 'instructkit.wsgi.application'
 # Static files and template management
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 # =======================================================================
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
+STATIC_ROOT = join_paths(PROJECT_PATH, 'static')
+STATICFILES_DIRS = [
+    # join_paths(PROJECT_PATH, 'static')
+]
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join_paths(PROJECT_PATH, '../../templates')]
+        'DIRS': [join_paths(PROJECT_PATH, 'templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {

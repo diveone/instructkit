@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+import os
 from .common import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p0a!v7t*&epfclfchj80z9vvcmw!qkw_lvai3gr*)r4$5fl2ft'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -39,11 +39,11 @@ MIDDLEWARE += [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-    'http://localhost:9000',
-    'http://127.0.0.1:9000',
-    'http://127.0.0.1:3000',
-    'http://localhost:3000',
+    'localhost:8000',
+    'localhost:9000',
+    '127.0.0.1:9000',
+    '127.0.0.1:3000',
+    'localhost:3000',
 )
 
 DEBUG_TOOLBAR_PANELS = [
@@ -66,10 +66,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'instructkit_dev',
-        'HOST': 'localhost',
         'PORT': '5432',
-        'USER': 'xotomajor',
-        'PASSWORD': 'admin'
     }
 }
 # Static files (CSS, JavaScript, Images)
@@ -91,13 +88,19 @@ LOGGING = {
             'level': 'INFO',
             'filters': [],
         },
+        'file': {
+            # logging handler that outputs log messages to terminal
+            'class': 'logging.FileHandler',
+            'level': 'WARNING',
+            'filters': [],
+        },
     },
     'loggers': {
         '': {
             # this sets root level logger to log debug and higher level
             # logs to console. All other loggers inherit settings from
             # root level logger.
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False, # this tells logger to send logging message
                                 # to its parent (will send if set to True)
@@ -107,3 +110,6 @@ LOGGING = {
         },
     },
 }
+
+import django_heroku
+django_heroku.settings(locals())
