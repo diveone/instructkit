@@ -16,6 +16,7 @@ Django = "==2.2.7"
 django-cors-headers = "*"
 django-debug-toolbar = "*"
 django-heroku = "*"
+gunicorn = "*"
 
 [dev-packages]
 
