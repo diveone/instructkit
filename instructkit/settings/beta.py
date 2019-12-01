@@ -39,11 +39,11 @@ MIDDLEWARE += [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    'localhost:9000',
-    '127.0.0.1:9000',
-    '127.0.0.1:3000',
-    'localhost:3000',
+    'http://localhost:8000',
+    'http://localhost:9000',
+    'http://127.0.0.1:9000',
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
 )
 
 DEBUG_TOOLBAR_PANELS = [
