@@ -12,7 +12,11 @@ python3 manage.py test instruckit/apps/
 
 ```
 
-## Operations
+## Troubleshooting
+
+Turn on `DEBUG=True` in settings to see the full Heroku output when getting any errors, especially 500 errors.
+
+Then redeploy the the change as a Hotfix. Amend commits until issue is fixed.
 ```
 heroku logs --tail
 

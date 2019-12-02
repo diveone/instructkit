@@ -25,7 +25,7 @@ class User(AbstractUser):
     linkedin = models.URLField(_('Link to LinkedIn profile'), blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name']
+    REQUIRED_FIELDS = ['name', 'username']
 
     def __str__(self):
         return self.username

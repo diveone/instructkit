@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+import os
 from .common import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p0a!v7t*&epfclfchj80z9vvcmw!qkw_lvai3gr*)r4$5fl2ft'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -27,16 +27,12 @@ DEBUG = False
 ALLOWED_HOSTS += []
 
 # Application definition
-DJANGO_APPS += [
-    'debug_toolbar',
-]
+DJANGO_APPS += []
 CUSTOM_APPS += []
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS
 
-MIDDLEWARE += [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
+MIDDLEWARE += []
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
@@ -46,50 +42,42 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
 
-DEBUG_TOOLBAR_PANELS = [
-    'debug_toolbar.panels.versions.VersionsPanel',
-    'debug_toolbar.panels.timer.TimerPanel',
-    'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-    'debug_toolbar.panels.redirects.RedirectsPanel',
-]
-# Database
+# Database handled by django-heroku. Use for customizations only.
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'instructkit_dev',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'USER': 'xotomajor',
-        'PASSWORD': 'admin'
-    }
-}
-# Static files (CSS, JavaScript, Images)
+
+# Static files (CSS, JavaScript, Images) handled by django-heroku. Use for customizations only.
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/assets/'
-STATIC_ROOT = join_paths(PROJECT_PATH, 'static')
-STATICFILES_DIRS = [
-    # join_paths(PROJECT_PATH, 'static'),
-]
-
+# Logging handled by django-heroku. Use for customizations only.
 LOGGING = {
     'disable_existing_loggers': False,
     'version': 1,
+    'formatters': {
+        'short': {
+            'format': '%(asctime)s %(levelname)-5s %(name)-5s %(message)s',
+            'datefmt': '%Y-%m-%d'
+        },
+        'verbose': {
+            'format': '%(asctime)s %(levelname)-8s %(name)-15s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        }
+    },
     'handlers': {
         'console': {
             # logging handler that outputs log messages to terminal
             'class': 'logging.StreamHandler',
             'level': 'INFO',
             'filters': [],
+            'formatter': 'short'
+        },
+        'file': {
+            # logging handler that outputs log messages to terminal
+            'class': 'logging.FileHandler',
+            'level': 'DEBUG',
+            'filters': [],
+            'formatter': 'verbose',
+            # TODO: Create a logs/ path usable by deployment user
+            'filename': 'instructkit.log'
         },
     },
     'loggers': {
@@ -97,7 +85,7 @@ LOGGING = {
             # this sets root level logger to log debug and higher level
             # logs to console. All other loggers inherit settings from
             # root level logger.
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
             'level': 'INFO',
             'propagate': False, # this tells logger to send logging message
                                 # to its parent (will send if set to True)
@@ -107,3 +95,6 @@ LOGGING = {
         },
     },
 }
+
+import django_heroku
+django_heroku.settings(locals())
