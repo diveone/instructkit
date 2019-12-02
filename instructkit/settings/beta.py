@@ -27,16 +27,12 @@ DEBUG = False
 ALLOWED_HOSTS += []
 
 # Application definition
-DJANGO_APPS += [
-    'debug_toolbar',
-]
+DJANGO_APPS += []
 CUSTOM_APPS += []
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS
 
-MIDDLEWARE += [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
+MIDDLEWARE += []
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
@@ -46,28 +42,14 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
 
-DEBUG_TOOLBAR_PANELS = [
-    'debug_toolbar.panels.versions.VersionsPanel',
-    'debug_toolbar.panels.timer.TimerPanel',
-    'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-    'debug_toolbar.panels.redirects.RedirectsPanel',
-]
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'instructkit_dev',
-        'PORT': '5432',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'instructkit',
+    #     'PORT': '5432',
+    # }
 }
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -75,7 +57,7 @@ DATABASES = {
 STATIC_URL = '/assets/'
 STATIC_ROOT = join_paths(PROJECT_PATH, 'static')
 STATICFILES_DIRS = [
-    # join_paths(PROJECT_PATH, 'static'),
+    join_paths(PROJECT_PATH, 'assets'),
 ]
 
 LOGGING = {
@@ -93,6 +75,7 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'level': 'WARNING',
             'filters': [],
+            'filename': 'instructkit.log'
         },
     },
     'loggers': {

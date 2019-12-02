@@ -12,8 +12,13 @@ python3 manage.py test instruckit/apps/
 
 ```
 
-## Server
+## Operations
+```
+heroku logs --tail
+
+```
+__Server__
 https://devcenter.heroku.com/articles/python-gunicorn
 
-## Django
+__Django__
 https://devcenter.heroku.com/articles/django-app-configuration
