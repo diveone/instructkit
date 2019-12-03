@@ -44,21 +44,22 @@ CORS_ORIGIN_WHITELIST = (
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'instructkit',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'instructkit',
+        'PORT': '5432',
+    }
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-# STATIC_URL = '/assets/'
-# STATIC_ROOT = join_paths(PROJECT_PATH, 'static')
-# STATICFILES_DIRS = [
-    # join_paths(PROJECT_PATH, 'assets'),
-# ]
+STATIC_URL = '/assets/'
+STATIC_ROOT = join_paths(PROJECT_PATH, 'static')
+STATICFILES_DIRS = [
+    join_paths(PROJECT_PATH, 'assets'),
+]
 
 LOGGING = {
     'disable_existing_loggers': False,

@@ -1,28 +1,50 @@
 # DEPLOYMENT
 
-Preparation:
+## Deployment Checklist
+
+Always check the build locally before any deployment. 
+
 ```bash
 python3 -m venv venv
-pip install -r requirements/prod.txt
+pip install -r requirements/beta.txt
 # OR
-pipenv install -r requirements/prod.txt
+pipenv install
 
 python3 manage.py migrate
 python3 manage.py test instruckit/apps/
-
 ```
+
+
+## Heroku
+
+Heroku has it's own settings file. It's the testing server for running incremental changes.
+
+- [Heroku Gunicorn Docs](https://devcenter.heroku.com/articles/python-gunicorn)
+- [Heroku Django Docs](https://devcenter.heroku.com/articles/django-app-configuration)
+
+Heroku only requires:
+
+- Environment variable setup on the dashboard
+- Django-heroku package
+
+It auto-configures: database, logging, static and testing. Finally: 
+
+```bash
+git push heroku master
+heroku logs --tail
+
+# Server operations
+heroku run python3 manage.py demo  # seed initial data
+heroku run python3 manage.py createsuperuser  # create a test user
+```
+
 
 ## Troubleshooting
 
-Turn on `DEBUG=True` in settings to see the full Heroku output when getting any errors, especially 500 errors.
+### Reset Database
 
-Then redeploy the the change as a Hotfix. Amend commits until issue is fixed.
-```
-heroku logs --tail
+Go to Heroku dashboard to reset the database. You can't do it from `heroku run` unless the app is managing it's own database.
 
-```
-__Server__
-https://devcenter.heroku.com/articles/python-gunicorn
+### Server Errors with No Logs
 
-__Django__
-https://devcenter.heroku.com/articles/django-app-configuration
+Turn on `DEBUG=True` in settings to see the full Heroku output when getting any errors, especially 500 errors. Then redeploy the the change as a Hotfix. Amend commits until issue is fixed.
